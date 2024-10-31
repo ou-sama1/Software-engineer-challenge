@@ -9,7 +9,28 @@ class CategoryRepository extends BaseRepository
 {
     public function getAll()
     {
-        return Category::all();
+        $categories = Category::where('parent_id', null)->with('children')->get();
+        return $categories;
+    }
+    
+    public function getOneWithDescendants($categoryId)
+    {
+        $category = Category::with('children')->find($categoryId);
+
+        if (!$category) {
+            return [];
+        }
+
+        return $this->collectDescendantIds($category, [$category->id]);
+    }
+
+    private function collectDescendantIds($category, $ids = [])
+    {
+        foreach ($category->children as $child) {
+            $ids[] = $child->id;
+            $ids = $this->collectDescendantIds($child, $ids);
+        }
+        return $ids;
     }
 
     public function create(array $attributes)

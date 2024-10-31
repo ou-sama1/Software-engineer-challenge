@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Repositories\CategoryRepository;
 use App\Repositories\ProductRepository;
 
 class ProductService
@@ -15,6 +16,15 @@ class ProductService
 
     public function getPaginatedProducts($filters, $sortBy)
     {
+        if (!empty($filters['category_id'])) {
+            $categoryRepo = new CategoryRepository();
+            $categoryIds = $categoryRepo->getOneWithDescendants($filters['category_id']);
+
+            if (!empty($categoryIds)) {
+                $filters['category_id'] = $categoryIds;
+            }
+        }
+        
         return $this->productRepo->getPaginated($filters, $sortBy);
     }
     

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class ProductController extends Controller
 
         $products = $this->productService->getPaginatedProducts($filters, $sortBy);
 
-        return response()->json($products, 200);
+        return ProductResource::collection($products);
     }
 
     public function store(StoreProductRequest $request)
@@ -34,18 +35,19 @@ class ProductController extends Controller
             'name',
             'description',
             'price',
+            'category_ids',
             'image'
         ]);
 
         $product = $this->productService->createProduct($data);
         
-        return response()->json($product, 201);
+        return new ProductResource($product);
     }
 
     public function destroy(Product $product)
     {
         $deleted = $this->productService->forceDeleteProduct($product);
 
-        return response()->json($product, 200);
+        return new ProductResource($deleted);
     }
 }

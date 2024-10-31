@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Services\CategoryService;
 
@@ -19,7 +20,7 @@ class CategoryController extends Controller
     {
         $categories = $this->categoryService->getAllCategories();
 
-        return response()->json($categories, 200);
+        return CategoryResource::collection($categories);
     }
 
     public function store(StoreCategoryRequest $request)
@@ -31,13 +32,13 @@ class CategoryController extends Controller
 
         $category = $this->categoryService->createCategory($data);
         
-        return response()->json($category, 201);
+        return new CategoryResource($category);
     }
 
     public function destroy(Category $category)
     {
         $deleted = $this->categoryService->forceDeleteCategory($category);
 
-        return response()->json($category, 200);
+        return new CategoryResource($deleted);
     }
 }

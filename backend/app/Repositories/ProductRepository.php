@@ -12,7 +12,7 @@ class ProductRepository extends BaseRepository
     {
         return Product::with('categories')
             ->when($filters['category_id'] ?? false, fn($query, $category_id) =>
-                $query->whereHas('categories', fn($q) => $q->where('category_id', $category_id))
+                $query->whereHas('categories', fn($q) => $q->whereIn('category_id', $filters['category_id']))
             )
             ->orderBy($sortBy)
             ->paginate(10);
@@ -25,14 +25,15 @@ class ProductRepository extends BaseRepository
                 'name' => data_get($attributes, 'name'),
                 'description' => data_get($attributes, 'description'),
                 'price' => data_get($attributes, 'price'),
-                'image' => data_get($attributes, 'image_path'),
+                'image_path' => data_get($attributes, 'image'),
             ]);
 
-            if (!empty(data_get($attributes, 'category_id'))) {
-                $category = Category::find(data_get($attributes, 'category_id'));
+            if (!empty(data_get($attributes, 'category_ids'))) {
+                $categoryIds = data_get($attributes, 'category_ids');
+                $categories = Category::whereIn('id', $categoryIds)->pluck('id');
 
-                if ($category) {
-                    $product->categories()->attach($category->id);
+                if ($categories->isNotEmpty()) {
+                    $product->categories()->attach($categories);
                 }
             }
 
