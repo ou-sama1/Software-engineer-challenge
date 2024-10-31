@@ -1,0 +1,18 @@
+{
+  "name": "coding-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install:all": "npm --prefix frontend install && cd backend && composer install",
+    "start:laravel": "cd backend && php artisan serve",
+    "start:frontend": "npm --prefix frontend run dev",
+    "start:all": "npm run start:laravel & npm run start:frontend",
+    "migrate:seed": "cd backend && php artisan migrate:fresh --seed",
+    "test:createProduct": "cd backend && php artisan test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {}
+}
