@@ -3,6 +3,7 @@ import useProducts from "../hooks/useProducts";
 import Pagination from "./Pagination";
 import ProductsTable from "./ProductsTable";
 import CategoriesFilter from "./CategoriesFilter";
+import CreateProduct from "./CreateProduct";
 
 const Products = () => {
   const [page, setPage] = useState(0);
@@ -16,6 +17,7 @@ const Products = () => {
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <CreateProduct />
       <CategoriesFilter categoryId={categoryId} setCategoryId={setCategoryId} />
       <ProductsTable
         products={products}
