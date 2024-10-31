@@ -12,6 +12,12 @@ class CategoryRepository extends BaseRepository
         $categories = Category::where('parent_id', null)->with('children')->get();
         return $categories;
     }
+
+    public function getOne($categoryId)
+    {
+        $category = Category::with('children')->find($categoryId);
+        return $category;
+    }
     
     public function getOneWithDescendants($categoryId)
     {
@@ -30,6 +36,7 @@ class CategoryRepository extends BaseRepository
             $ids[] = $child->id;
             $ids = $this->collectDescendantIds($child, $ids);
         }
+        
         return $ids;
     }
 

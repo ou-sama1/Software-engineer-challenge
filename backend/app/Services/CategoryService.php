@@ -18,6 +18,11 @@ class CategoryService
         return $this->categoryRepo->getAll();
     }
     
+    public function getOneCategory($categoryId)
+    {
+        return $this->categoryRepo->getOne($categoryId);
+    }
+    
     public function createCategory($data)
     {
         return $this->categoryRepo->create($data);

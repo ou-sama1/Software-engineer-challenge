@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class ProductRepository extends BaseRepository
 {
+    public function getOne($productId)
+    {
+        $product = Product::find($productId);
+        return $product;
+    }
+
     public function getPaginated($filters = [], $sortBy = 'name')
     {
         return Product::with('categories')

@@ -14,6 +14,11 @@ class ProductService
         $this->productRepo = $productRepo;
     }
 
+    public function getOneProduct($productId)
+    {
+        return $this->productRepo->getOne($productId);
+    }
+
     public function getPaginatedProducts($filters, $sortBy)
     {
         if (!empty($filters['category_id'])) {
