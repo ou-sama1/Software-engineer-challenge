@@ -13,13 +13,18 @@ class ProductService
         $this->productRepo = $productRepo;
     }
 
-    public function getPaginatedProducts()
+    public function getPaginatedProducts($filters, $sortBy)
     {
-        return $this->productRepo->getPaginated();
+        return $this->productRepo->getPaginated($filters, $sortBy);
     }
     
     public function createProduct($data)
     {
+        if (isset($data['image'])) {
+            $imagePath = $data['image']->store('products', 'public');
+            $data['image'] = $imagePath;
+        }
+
         return $this->productRepo->create($data);
     }
     

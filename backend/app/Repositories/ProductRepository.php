@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\DB;
 
 class ProductRepository extends BaseRepository
 {
-    public function getPaginated($filters = [], $sort = 'name')
+    public function getPaginated($filters = [], $sortBy = 'name')
     {
         return Product::with('categories')
-            ->when($filters['category'] ?? false, fn($query, $category) =>
-                $query->whereHas('categories', fn($q) => $q->where('name', $category))
+            ->when($filters['category_id'] ?? false, fn($query, $category_id) =>
+                $query->whereHas('categories', fn($q) => $q->where('category_id', $category_id))
             )
-            ->orderBy($sort)
+            ->orderBy($sortBy)
             ->paginate(10);
     }
     
