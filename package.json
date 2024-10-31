@@ -10,7 +10,8 @@
     "start:frontend": "npm --prefix frontend run dev",
     "start:all": "npm run start:laravel & npm run start:frontend",
     "migrate:seed": "cd backend && php artisan migrate:fresh --seed",
-    "test:createProduct": "cd backend && php artisan test"
+    "test:createProduct": "cd backend && php artisan test",
+    "generate:key": "cd backend && php artisan key:generate"
   },
   "author": "",
   "license": "ISC",
