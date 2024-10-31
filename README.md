@@ -1,6 +1,7 @@
 # Software-engineer-challenge
 
 **Description**:  This is a challenge from COD NETWORK team, the purpose is to test the ability to focus in the code quality and software engineering principles & best practices.
+
 **Technology stack**: This project uses ReactJS for the frontend and Laravel for the backend.
 
 ## Dependencies
@@ -11,7 +12,8 @@ This project needs node, npm, php, php-sqlite and composer installed.
 ## Installation
 
 First you need to create a .env and past the content of .env.example to it, or simply rename .env.example to .env.
-Do the same thing with the frontend directory, and make sure the URLs in .env (frontend) has the same port as the one laravel runs on.
+Do the same thing with the frontend directory, and make sure the URLs in .env (frontend) have the same port as the one laravel runs on.
+
 You will also need to generate the key for laravel project, run this command in the project's root directory:
 ```
 npm run generate:key
@@ -40,6 +42,7 @@ There are two different ways to interact with this app:
 ### CLI
 
 You can manipulate the database records directly from the CLI as I created specific artisan commands for that.
+
 To create a product, first navigate to the backend directory:
 ```
 cd backend
