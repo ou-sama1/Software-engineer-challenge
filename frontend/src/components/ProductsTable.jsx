@@ -21,21 +21,18 @@ const ProductsTable = ({ products, isFetching, isError }) => {
           <th scope="col" className="px-6 py-3">
             Categories
           </th>
-          <th scope="col" className="px-6 py-3">
-            Actions
-          </th>
         </tr>
       </thead>
       <tbody>
         {isFetching ? (
           <tr>
-            <td colSpan={7} className="text-center py-4 text-gray-500">
+            <td colSpan={6} className="text-center py-4 text-gray-500">
               Loading products...
             </td>
           </tr>
         ) : isError ? (
           <tr>
-            <td colSpan={7} className="text-center py-4 text-gray-500">
+            <td colSpan={6} className="text-center py-4 text-gray-500">
               An error occured.
             </td>
           </tr>
@@ -60,11 +57,6 @@ const ProductsTable = ({ products, isFetching, isError }) => {
                   {categories?.map(({ id, name }) => (
                     <span key={id}>{name}</span>
                   ))}
-                </td>
-                <td className="px-6 py-4">
-                  <button className="bg-red-800 px-4 py-2 rounded-md">
-                    Delete
-                  </button>
                 </td>
               </tr>
             )
