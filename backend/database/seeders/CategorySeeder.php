@@ -2,15 +2,19 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
+use App\Services\CategoryService;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CategorySeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+    protected $categoryService;
+
+    public function __construct(CategoryService $categoryService)
+    {
+        $this->categoryService = $categoryService;
+    }
+
     public function run(): void
     {
         $categories = [
@@ -29,7 +33,7 @@ class CategorySeeder extends Seeder
         ];
 
         foreach ($categories as $category) {
-            Category::create($category);
+            $this->categoryService->createCategory($category);
         }
     }
 }

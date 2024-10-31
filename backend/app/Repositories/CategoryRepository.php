@@ -7,9 +7,15 @@ use Illuminate\Support\Facades\DB;
 
 class CategoryRepository extends BaseRepository
 {
-    public function getAll()
+    public function getParents()
     {
         $categories = Category::where('parent_id', null)->with('children')->get();
+        return $categories;
+    }
+    
+    public function getAll()
+    {
+        $categories = Category::all();
         return $categories;
     }
 
@@ -36,7 +42,7 @@ class CategoryRepository extends BaseRepository
             $ids[] = $child->id;
             $ids = $this->collectDescendantIds($child, $ids);
         }
-        
+
         return $ids;
     }
 

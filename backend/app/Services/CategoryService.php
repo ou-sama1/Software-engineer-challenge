@@ -13,6 +13,11 @@ class CategoryService
         $this->categoryRepo = $categoryRepo;
     }
 
+    public function getAllParentCategories()
+    {
+        return $this->categoryRepo->getParents();
+    }
+    
     public function getAllCategories()
     {
         return $this->categoryRepo->getAll();
