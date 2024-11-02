@@ -24,7 +24,7 @@ class CreateCategoryCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle(CategoryService $categoryService)
+    public function handle(CategoryService $categoryService): void
     {
         $name = $this->argument('name');
         $parent_id = $this->argument('parent_id') ?? null;
@@ -41,6 +41,7 @@ class CreateCategoryCommand extends Command
             'name' => $name,
             'parent_id' => $parent_id
         ]);
+        
         $this->info("Successfully created category $name.");
     }
 }

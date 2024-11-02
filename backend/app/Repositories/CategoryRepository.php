@@ -3,40 +3,45 @@
 namespace App\Repositories;
 
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class CategoryRepository extends BaseRepository
 {
-    public function getParents()
+    public function getParents(): Collection
     {
         $categories = Category::where('parent_id', null)->with('children')->get();
+
         return $categories;
     }
     
-    public function getAll()
+    public function getAll(): Collection
     {
         $categories = Category::all();
+
         return $categories;
     }
 
-    public function getOne($categoryId)
+    public function getOne(int $categoryId): Collection
     {
         $category = Category::with('children')->find($categoryId);
+
         return $category;
     }
     
-    public function getOneWithDescendants($categoryId)
+    public function getOneWithDescendants(int $categoryId): Collection
     {
         $category = Category::with('children')->find($categoryId);
 
         if (!$category) {
-            return [];
+            return collect();
         }
 
         return $this->collectDescendantIds($category, [$category->id]);
     }
 
-    private function collectDescendantIds($category, $ids = [])
+    private function collectDescendantIds(Collection $category, array $ids = []): array
     {
         foreach ($category->children as $child) {
             $ids[] = $child->id;
@@ -46,7 +51,7 @@ class CategoryRepository extends BaseRepository
         return $ids;
     }
 
-    public function create(array $attributes)
+    public function create(array $attributes): Collection
     {
         return DB::transaction(function () use ($attributes) {
             if (!empty(data_get($attributes, 'parent_id'))) {
@@ -66,7 +71,7 @@ class CategoryRepository extends BaseRepository
         });
     }
 
-    public function forceDelete($category)
+    public function forceDelete(Model $category): Collection
     {
         return DB::transaction(function () use ($category) {
             $deleted = $category->forceDelete();

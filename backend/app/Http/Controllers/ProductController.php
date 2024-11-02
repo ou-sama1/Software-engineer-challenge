@@ -7,6 +7,7 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\ProductService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class ProductController extends Controller
 {
@@ -17,19 +18,18 @@ class ProductController extends Controller
         $this->productService = $productService;
     }
 
-    public function index(Request $request)
+    public function index(Request $request): ResourceCollection
     {
         $filters = [
             'category_id' => $request->get('category_id', null),
         ];
         $sortBy = $request->get('sort_by', 'name');
-
         $products = $this->productService->getPaginatedProducts($filters, $sortBy);
 
         return ProductResource::collection($products);
     }
 
-    public function store(StoreProductRequest $request)
+    public function store(StoreProductRequest $request): ProductResource
     {
         $data = $request->only([
             'name',
@@ -38,13 +38,12 @@ class ProductController extends Controller
             'category_ids',
             'image'
         ]);
-
         $product = $this->productService->createProduct($data);
         
         return new ProductResource($product);
     }
 
-    public function destroy(Product $product)
+    public function destroy(Product $product): ProductResource
     {
         $deleted = $this->productService->forceDeleteProduct($product);
 

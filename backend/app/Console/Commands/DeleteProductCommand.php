@@ -19,12 +19,12 @@ class DeleteProductCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Delete a product';
 
     /**
      * Execute the console command.
      */
-    public function handle(ProductService $productService)
+    public function handle(ProductService $productService): void
     {
         $product_id = $this->argument('product_id');
 
@@ -35,6 +35,7 @@ class DeleteProductCommand extends Command
         }
 
         $productService->forceDeleteProduct($product);
+        
         $this->info("Successfully deleted product with id $product_id.");
     }
 }

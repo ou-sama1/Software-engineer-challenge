@@ -19,12 +19,12 @@ class CreateProductCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Create a new product';
 
     /**
      * Execute the console command.
      */
-    public function handle(ProductService $productService)
+    public function handle(ProductService $productService): void
     {
         $name = $this->argument('name');
         $description = $this->argument('description');

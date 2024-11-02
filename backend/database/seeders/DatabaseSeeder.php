@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CategorySeeder::class);
 
         $categories = $this->categoryService->getAllCategories();
+        
         Product::factory(20)->create()->each(function ($product) use ($categories) {
             $product->categories()->attach(
                 $categories->random(rand(1, 3))->pluck('id')->toArray()

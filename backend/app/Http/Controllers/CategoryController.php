@@ -6,6 +6,7 @@ use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Services\CategoryService;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class CategoryController extends Controller
 {
@@ -16,14 +17,14 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
-    public function index()
+    public function index(): ResourceCollection
     {
         $categories = $this->categoryService->getAllParentCategories();
 
         return CategoryResource::collection($categories);
     }
 
-    public function store(StoreCategoryRequest $request)
+    public function store(StoreCategoryRequest $request): CategoryResource
     {
         $data = $request->only([
             'name',
@@ -35,7 +36,7 @@ class CategoryController extends Controller
         return new CategoryResource($category);
     }
 
-    public function destroy(Category $category)
+    public function destroy(Category $category): CategoryResource
     {
         $deleted = $this->categoryService->forceDeleteCategory($category);
 

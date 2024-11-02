@@ -4,27 +4,30 @@ namespace App\Repositories;
 
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class ProductRepository extends BaseRepository
 {
-    public function getOne($productId)
+    public function getOne(int $productId): Collection
     {
         $product = Product::find($productId);
+
         return $product;
     }
 
-    public function getPaginated($filters = [], $sortBy = 'name')
+    public function getPaginated(array $filters = [], string $sortBy = 'name'): Collection
     {
         return Product::with('categories')
-            ->when($filters['category_id'] ?? false, fn($query, $category_id) =>
+            ->when($filters['category_id'] ?? false, fn($query) =>
                 $query->whereHas('categories', fn($q) => $q->whereIn('category_id', $filters['category_id']))
             )
             ->orderBy($sortBy)
             ->paginate(10);
     }
     
-    public function create(array $attributes)
+    public function create(array $attributes): Collection
     {
         return DB::transaction(function () use ($attributes) {
             $product = Product::create([
@@ -47,7 +50,7 @@ class ProductRepository extends BaseRepository
         });
     }
 
-    public function forceDelete($product)
+    public function forceDelete(Model $product): Collection
     {
         return DB::transaction(function () use ($product) {
             $deleted = $product->forceDelete();

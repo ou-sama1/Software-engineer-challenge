@@ -4,28 +4,31 @@ namespace App\Services;
 
 use App\Repositories\CategoryRepository;
 use App\Repositories\ProductRepository;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class ProductService
 {
     protected $productRepo;
+    protected $categoryRepo;
 
-    public function __construct(ProductRepository $productRepo)
+    public function __construct(ProductRepository $productRepo, CategoryRepository $categoryRepo)
     {
         $this->productRepo = $productRepo;
+        $this->categoryRepo = $categoryRepo;
     }
 
-    public function getOneProduct($productId)
+    public function getOneProduct(int $productId): Collection
     {
         return $this->productRepo->getOne($productId);
     }
 
-    public function getPaginatedProducts($filters, $sortBy)
+    public function getPaginatedProducts(array $filters, string $sortBy): Collection
     {
         if (!empty($filters['category_id'])) {
-            $categoryRepo = new CategoryRepository();
-            $categoryIds = $categoryRepo->getOneWithDescendants($filters['category_id']);
+            $categoryIds = $this->categoryRepo->getOneWithDescendants($filters['category_id']);
 
-            if (!empty($categoryIds)) {
+            if ($categoryIds->isNotEmpty()) {
                 $filters['category_id'] = $categoryIds;
             }
         }
@@ -33,7 +36,7 @@ class ProductService
         return $this->productRepo->getPaginated($filters, $sortBy);
     }
     
-    public function createProduct($data)
+    public function createProduct(array $data): Collection
     {
         if (isset($data['image'])) {
             $imagePath = $data['image']->store('products', 'public');
@@ -43,7 +46,7 @@ class ProductService
         return $this->productRepo->create($data);
     }
     
-    public function forceDeleteProduct($product)
+    public function forceDeleteProduct(Model $product): Collection
     {
         return $this->productRepo->forceDelete($product);
     }

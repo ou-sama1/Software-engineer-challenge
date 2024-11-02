@@ -19,12 +19,12 @@ class deleteCategoryCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Delete a category';
 
     /**
      * Execute the console command.
      */
-    public function handle(CategoryService $categoryService)
+    public function handle(CategoryService $categoryService): void
     {
         $category_id = $this->argument('category_id');
 
@@ -35,6 +35,7 @@ class deleteCategoryCommand extends Command
         }
 
         $categoryService->forceDeleteCategory($category);
+
         $this->info("Successfully deleted category with id $category_id.");
     }
 }
