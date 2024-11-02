@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Category;
 use App\Repositories\CategoryRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -25,17 +26,17 @@ class CategoryService
         return $this->categoryRepo->getAll();
     }
     
-    public function getOneCategory(int $categoryId): Collection
+    public function getOneCategory(int $categoryId): Category
     {
         return $this->categoryRepo->getOne($categoryId);
     }
     
-    public function createCategory(array $data): Collection
+    public function createCategory(array $data): Category
     {
         return $this->categoryRepo->create($data);
     }
     
-    public function forceDeleteCategory(Model $category): Collection
+    public function forceDeleteCategory(Model $category): Category
     {
         return $this->categoryRepo->forceDelete($category);
     }

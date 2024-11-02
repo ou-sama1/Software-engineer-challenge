@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Product;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ProductRepository;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +19,7 @@ class ProductService
         $this->categoryRepo = $categoryRepo;
     }
 
-    public function getOneProduct(int $productId): Collection
+    public function getOneProduct(int $productId): Product
     {
         return $this->productRepo->getOne($productId);
     }
@@ -36,7 +37,7 @@ class ProductService
         return $this->productRepo->getPaginated($filters, $sortBy);
     }
     
-    public function createProduct(array $data): Collection
+    public function createProduct(array $data): Product
     {
         if (isset($data['image'])) {
             $imagePath = $data['image']->store('products', 'public');
@@ -46,7 +47,7 @@ class ProductService
         return $this->productRepo->create($data);
     }
     
-    public function forceDeleteProduct(Model $product): Collection
+    public function forceDeleteProduct(Model $product): Product
     {
         return $this->productRepo->forceDelete($product);
     }

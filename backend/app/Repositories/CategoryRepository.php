@@ -23,7 +23,7 @@ class CategoryRepository extends BaseRepository
         return $categories;
     }
 
-    public function getOne(int $categoryId): Collection
+    public function getOne(int $categoryId): Category
     {
         $category = Category::with('children')->find($categoryId);
 
@@ -51,7 +51,7 @@ class CategoryRepository extends BaseRepository
         return $ids;
     }
 
-    public function create(array $attributes): Collection
+    public function create(array $attributes): Category
     {
         return DB::transaction(function () use ($attributes) {
             if (!empty(data_get($attributes, 'parent_id'))) {
@@ -71,7 +71,7 @@ class CategoryRepository extends BaseRepository
         });
     }
 
-    public function forceDelete(Model $category): Collection
+    public function forceDelete(Model $category): Category
     {
         return DB::transaction(function () use ($category) {
             $deleted = $category->forceDelete();
