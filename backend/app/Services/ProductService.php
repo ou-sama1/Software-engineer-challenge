@@ -19,7 +19,7 @@ class ProductService
         $this->categoryRepo = $categoryRepo;
     }
 
-    public function getOneProduct(int $productId): Product
+    public function getOneProduct(int $productId): ?Product
     {
         return $this->productRepo->getOne($productId);
     }
@@ -29,7 +29,7 @@ class ProductService
         if (!empty($filters['category_id'])) {
             $categoryIds = $this->categoryRepo->getOneWithDescendants($filters['category_id']);
 
-            if ($categoryIds->isNotEmpty()) {
+            if (!empty($categoryIds)) {
                 $filters['category_id'] = $categoryIds;
             }
         }
@@ -47,7 +47,7 @@ class ProductService
         return $this->productRepo->create($data);
     }
     
-    public function forceDeleteProduct(Model $product): Product
+    public function forceDeleteProduct(Model $product): bool
     {
         return $this->productRepo->forceDelete($product);
     }

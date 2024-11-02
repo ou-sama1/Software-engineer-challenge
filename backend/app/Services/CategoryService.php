@@ -26,7 +26,7 @@ class CategoryService
         return $this->categoryRepo->getAll();
     }
     
-    public function getOneCategory(int $categoryId): Category
+    public function getOneCategory(int $categoryId): ?Category
     {
         return $this->categoryRepo->getOne($categoryId);
     }
@@ -36,7 +36,7 @@ class CategoryService
         return $this->categoryRepo->create($data);
     }
     
-    public function forceDeleteCategory(Model $category): Category
+    public function forceDeleteCategory(Model $category): bool
     {
         return $this->categoryRepo->forceDelete($category);
     }

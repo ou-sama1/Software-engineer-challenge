@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProductRepository extends BaseRepository
 {
-    public function getOne(int $productId): Product
+    public function getOne(int $productId): ?Product
     {
         $product = Product::find($productId);
 
@@ -50,7 +50,7 @@ class ProductRepository extends BaseRepository
         });
     }
 
-    public function forceDelete(Model $product): Product
+    public function forceDelete(Model $product): bool
     {
         return DB::transaction(function () use ($product) {
             $deleted = $product->forceDelete();

@@ -23,20 +23,16 @@ class CategoryRepository extends BaseRepository
         return $categories;
     }
 
-    public function getOne(int $categoryId): Category
+    public function getOne(int $categoryId): ?Category
     {
         $category = Category::with('children')->find($categoryId);
 
         return $category;
     }
     
-    public function getOneWithDescendants(int $categoryId): Collection
+    public function getOneWithDescendants(int $categoryId): array
     {
         $category = Category::with('children')->find($categoryId);
-
-        if (!$category) {
-            return collect();
-        }
 
         return $this->collectDescendantIds($category, [$category->id]);
     }
@@ -71,7 +67,7 @@ class CategoryRepository extends BaseRepository
         });
     }
 
-    public function forceDelete(Model $category): Category
+    public function forceDelete(Model $category): bool
     {
         return DB::transaction(function () use ($category) {
             $deleted = $category->forceDelete();
