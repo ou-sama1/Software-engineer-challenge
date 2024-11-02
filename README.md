@@ -49,7 +49,11 @@ cd backend
 ```
 Then use this artisan command:
 ```
-php artisan product:create {name} {description} {price} {category_ids}
+php artisan product:create {name} {description} {price} --image_url={image_url} --category_ids={category_ids}
+```
+Note that the image_url and category_ids are optional, examples:
+```
+php artisan product:create "laptop" "expensive laptop" 1500.5 --image_url="/home/me/Pictures/laptop.png" --category_ids="1 2"
 ```
 
 To delete a product:
@@ -59,7 +63,12 @@ php artisan product:delete {product_id}
 
 To create a category:
 ```
-php artisan category:create {name} {parent_id}
+php artisan category:create {name} {parent_id?}
+```
+Note that the parent_id is optional, examples:
+```
+php artisan category:create electronics
+php artisan category:create laptops 1
 ```
 
 To delete a category:
