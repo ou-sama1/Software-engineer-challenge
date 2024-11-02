@@ -7,6 +7,7 @@ use App\Repositories\CategoryRepository;
 use App\Repositories\ProductRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 
 class ProductService
 {
@@ -39,16 +40,21 @@ class ProductService
     
     public function createProduct(array $data): Product
     {
-        if (isset($data['image'])) {
-            $imagePath = $data['image']->store('products', 'public');
-            $data['image'] = $imagePath;
-        }
-
         return $this->productRepo->create($data);
     }
     
     public function forceDeleteProduct(Model $product): bool
     {
         return $this->productRepo->forceDelete($product);
+    }
+
+    public function saveImageFromURL(string $URL): string
+    {
+        $newPath = 'products/' . basename($URL);
+        $imageContent = file_get_contents($URL);
+
+        Storage::disk('public')->put($newPath, $imageContent);
+
+        return '/storage/' . $newPath;
     }
 }

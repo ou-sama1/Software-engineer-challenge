@@ -12,7 +12,7 @@ class CreateProductCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'product:create {name} {description} {price} {category_ids?} {image?}';
+    protected $signature = 'product:create {name} {description} {price} {--image_url=} {--category_ids=}';
 
     /**
      * The console command description.
@@ -26,18 +26,24 @@ class CreateProductCommand extends Command
      */
     public function handle(ProductService $productService): void
     {
+        $idsToArray = explode(' ', $this->option('category_ids'));
+
         $name = $this->argument('name');
         $description = $this->argument('description');
         $price = $this->argument('price');
-        $category_ids = $this->argument('category_ids') ?? null;
-        $image = $this->argument('image') ?? null;
+        $category_ids = $idsToArray ?? [];
+        $imageURL = $this->option('image_url') ?? null;
+
+        if ($imageURL) {
+            $imageURL = $productService->saveImageFromURL($imageURL);
+        }
 
         $productService->createProduct([
             'name' => $name,
             'description' => $description,
             'price' => $price,
             'category_ids' => $category_ids,
-            'image' => $image,
+            'image' => $imageURL,
         ]);
 
         $this->info("Successfully created product $name.");

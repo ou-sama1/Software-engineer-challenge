@@ -39,9 +39,9 @@ class ProductRepository extends BaseRepository
 
             if (!empty(data_get($attributes, 'category_ids'))) {
                 $categoryIds = data_get($attributes, 'category_ids');
-                $categories = Category::whereIn('id', $categoryIds)->pluck('id');
+                $categories = Category::whereIn('id', $categoryIds)->pluck('id')->toArray();
 
-                if ($categories->isNotEmpty()) {
+                if (!empty($categories)) {
                     $product->categories()->attach($categories);
                 }
             }

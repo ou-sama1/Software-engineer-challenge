@@ -31,13 +31,20 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request): ProductResource
     {
-        $data = $request->only([
-            'name',
-            'description',
-            'price',
-            'category_ids',
-            'image'
-        ]);
+
+        $data = [
+            'name' => $request['name'],
+            'description' => $request['description'],
+            'price' => $request['price'],
+            'category_ids' => $request['category_ids'],
+            'image' => $request['image'],
+        ];
+
+        if ($request['image']) {
+            $imagePath = $request['image']->store('products', 'public');
+            $data['image'] = $imagePath;
+        }
+        
         $product = $this->productService->createProduct($data);
         
         return new ProductResource($product);
