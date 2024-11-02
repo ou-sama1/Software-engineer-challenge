@@ -6,7 +6,7 @@ use App\Models\Product;
 use App\Repositories\CategoryRepository;
 use App\Repositories\ProductRepository;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Storage;
 
 class ProductService
@@ -25,7 +25,7 @@ class ProductService
         return $this->productRepo->getOne($productId);
     }
 
-    public function getPaginatedProducts(array $filters, string $sortBy): Collection
+    public function getPaginatedProducts(array $filters, string $sortBy): LengthAwarePaginator
     {
         if (!empty($filters['category_id'])) {
             $categoryIds = $this->categoryRepo->getOneWithDescendants($filters['category_id']);
@@ -55,6 +55,6 @@ class ProductService
 
         Storage::disk('public')->put($newPath, $imageContent);
 
-        return '/storage/' . $newPath;
+        return 'storage/' . $newPath;
     }
 }

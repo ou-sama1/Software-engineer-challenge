@@ -21,9 +21,9 @@ class ProductController extends Controller
     public function index(Request $request): ResourceCollection
     {
         $filters = [
-            'category_id' => $request->get('category_id', null),
+            'category_id' => $request['category_id'] ?? null,
         ];
-        $sortBy = $request->get('sort_by', 'name');
+        $sortBy = $request['sort_by'] ?? "name";
         $products = $this->productService->getPaginatedProducts($filters, $sortBy);
 
         return ProductResource::collection($products);
@@ -41,10 +41,10 @@ class ProductController extends Controller
         ];
 
         if ($request['image']) {
-            $imagePath = $request['image']->store('products', 'public');
+            $imagePath = 'storage/' . $request['image']->store('products', 'public');
             $data['image'] = $imagePath;
         }
-        
+
         $product = $this->productService->createProduct($data);
         
         return new ProductResource($product);

@@ -22,7 +22,7 @@ class ProductFactory extends Factory
             'price' => $this->faker->randomFloat(2, 10, 1000),
             'image_path' => function () {
                 $fullPath = $this->faker->image(storage_path('app/public/products'), 100, 100);
-                return '/storage/products/' . basename($fullPath);
+                return 'storage/products/' . basename($fullPath);
             },
         ];
     }

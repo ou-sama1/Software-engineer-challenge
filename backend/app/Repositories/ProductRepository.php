@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class ProductRepository extends BaseRepository
@@ -17,7 +17,7 @@ class ProductRepository extends BaseRepository
         return $product;
     }
 
-    public function getPaginated(array $filters = [], string $sortBy = 'name'): Collection
+    public function getPaginated(array $filters = [], string $sortBy = 'name'): LengthAwarePaginator
     {
         return Product::with('categories')
             ->when($filters['category_id'] ?? false, fn($query) =>

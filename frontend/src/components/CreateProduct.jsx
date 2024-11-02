@@ -32,6 +32,13 @@ const CreateProduct = () => {
       data.append("image", formData.image);
     }
     createProduct.mutate(data);
+    setFormData({
+      name: "",
+      description: "",
+      price: "",
+      category: "",
+      image: "",
+    });
   };
 
   return (
@@ -57,6 +64,7 @@ const CreateProduct = () => {
               name="name"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               required
+              value={formData.name}
               onChange={handleChange}
             />
           </div>
@@ -69,6 +77,7 @@ const CreateProduct = () => {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               required
               name="description"
+              value={formData.description}
               onChange={handleChange}
             ></textarea>
           </div>
@@ -78,11 +87,12 @@ const CreateProduct = () => {
             </label>
             <input
               type="number"
-              step={0.1}
+              step={0.01}
               id="price"
               name="price"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               required
+              value={formData.price}
               onChange={handleChange}
             />
           </div>

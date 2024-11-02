@@ -46,7 +46,7 @@ const ProductsTable = ({ products, isFetching, isError }) => {
                 <td className="px-6 py-4">{id}</td>
                 <td className="px-6 py-4">
                   <img
-                    src={`${import.meta.env.VITE_PUBLIC_URL}/${image}`}
+                    src={`${import.meta.env.VITE_PUBLIC_URL}${image}`}
                     alt={name}
                   />
                 </td>
