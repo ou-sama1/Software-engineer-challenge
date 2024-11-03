@@ -37,7 +37,7 @@ class CategoryRepository extends BaseRepository
         return $this->collectDescendantIds($category, [$category->id]);
     }
 
-    private function collectDescendantIds(Collection $category, array $ids = []): array
+    private function collectDescendantIds(Category $category, array $ids = []): array
     {
         foreach ($category->children as $child) {
             $ids[] = $child->id;
